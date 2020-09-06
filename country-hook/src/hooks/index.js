@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import countryService from '../services/countries';
 
 export const useField = (type) => {
   const [value, setValue] = useState('')
@@ -17,7 +18,9 @@ export const useField = (type) => {
 export const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  // useEffect()
+  useEffect(() => {
+    if(name) countryService.getCountry(name).then(res => setCountry(res));
+  }, [name])
 
-  return country
+  return country;
 }

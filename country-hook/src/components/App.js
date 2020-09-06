@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
+import Country from './Country';
+import { useField, useCountry } from '../hooks';
 
 
 const App = () => {
@@ -8,8 +9,8 @@ const App = () => {
   const country = useCountry(name)
 
   const fetch = (e) => {
-    e.preventDefault()
-    setName(nameInput.value)
+    e.preventDefault();
+    setName(nameInput.value);
   }
 
   return (
