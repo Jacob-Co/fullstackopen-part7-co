@@ -7,10 +7,16 @@ export const useField = (type) => {
     setValue(event.target.value)
   };
 
+  const onClick = (event) => {
+    event.preventDefault();
+    setValue('');
+  }
+
   return {
     type,
     value,
-    onChange
+    onChange,
+    onClick
   };
 };
 

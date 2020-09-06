@@ -67,10 +67,6 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  // const [content, setContent] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [info, setInfo] = useState('')
-
   const content = useField('text');
   const author = useField('text');
   const info = useField('text');
@@ -105,6 +101,11 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button onClick={(event) => {
+          content.onClick(event);
+          author.onClick(event);
+          info.onClick(event);
+        }}>reset</button>
       </form>
     </div>
   )
