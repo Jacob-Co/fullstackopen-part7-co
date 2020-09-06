@@ -102,9 +102,9 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
         <button onClick={(event) => {
-          content.onClick(event);
-          author.onClick(event);
-          info.onClick(event);
+          content.resetOnClick(event);
+          author.resetOnClick(event);
+          info.resetOnClick(event);
         }}>reset</button>
       </form>
     </div>
