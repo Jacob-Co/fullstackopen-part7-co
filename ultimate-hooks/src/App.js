@@ -1,4 +1,3 @@
-  
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
@@ -21,9 +20,15 @@ const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
   // ...
+  useEffect(() => {
+    axios.get(baseUrl)
+      .then(res => setResources(res.data));
+  }, [baseUrl])
 
-  const create = (resource) => {
-    // ...
+  const create = async (resource) => {
+    const response = await axios.post(baseUrl, resource);
+    console.log(response.data);
+    setResources(resources.concat(response.data));
   }
 
   const service = {
