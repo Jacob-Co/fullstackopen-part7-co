@@ -52,10 +52,12 @@ blogsRouter.put('/:id', async (request, response) => {
     url: body.url,
     likes: body.likes || 0,
   };
-  const returnedBlog = await Blog.findByIdAndUpdate(id, updatedBlog, {
-    new: true,
-    runValidators: true,
-  });
+  const returnedBlog = await Blog
+    .findByIdAndUpdate(id, updatedBlog, {
+      new: true,
+      runValidators: true,
+    })
+    .populate('user', { username: 1, name: 1 });
 
   if (!returnedBlog) return response.status(404).end();
 
