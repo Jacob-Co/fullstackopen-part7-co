@@ -17,10 +17,6 @@ const Blog = ({ blog, handleLike, removeBlog }) => {
 
   const showIfVisible = { display: visible ? '' : 'none' };
 
-  const handleRemove = () => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) removeBlog(blog);
-  };
-
   return (
     <div style={blogStyle} className="blog">
       <div className="blogBasics">
@@ -40,7 +36,7 @@ const Blog = ({ blog, handleLike, removeBlog }) => {
         <div>
           {blog.user.name}
         </div>
-        <button className="delete-button" onClick={handleRemove}>remove</button>
+        <button className="delete-button" onClick={removeBlog}>remove</button>
       </div>
     </div>
   );
