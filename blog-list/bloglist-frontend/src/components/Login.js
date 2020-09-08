@@ -1,32 +1,40 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-const Login = ({ handleSubmit, username, handleUsernameChange, password, handlePasswordChange }) => (
-  <div>
-    <h2>Log in to Application</h2>
-    <form onSubmit={handleSubmit}>
-      <div>
-        username
-        <input
-          type="text"
-          name="Username"
-          id="username"
-          value={username}
-          onChange={({ target }) => handleUsernameChange(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          name="Password"
-          id="password"
-          value={password}
-          onChange={({ target }) => handlePasswordChange(target.value)}
-        />
-      </div>
-      <button>Login</button>
-    </form>
-  </div>
-);
+import { login } from '../reducer/userReducer';
+
+const Login = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const username = event.target.username.value
+    const password = event.target.password.value
+    dispatch(login({username, password}))
+  }
+
+  return (
+    <div>
+      <h2>Log in to Application</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          username
+          <input
+            type="text"
+            name="username"
+          />
+        </div>
+        <div>
+          password
+          <input
+            type="password"
+            name="password"
+          />
+        </div>
+        <button>Login</button>
+      </form>
+    </div>
+  );
+}  
 
 export default Login;
