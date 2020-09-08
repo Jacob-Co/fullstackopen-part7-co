@@ -1,7 +1,7 @@
-import React, { useState, useImperativeHandle } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Toggable = React.forwardRef(({ children, label }, ref) => {
+const Toggable = ({ children, label }) => {
   const [visible, setVisible] = useState(false);
 
   const showIfVisible = { display: visible ? '' : 'none' };
@@ -10,10 +10,6 @@ const Toggable = React.forwardRef(({ children, label }, ref) => {
   const toggleVisibility = () => {
     setVisible(!visible);
   };
-
-  useImperativeHandle(ref, () => {
-    return { toggleVisibility };
-  });
 
   return (
     <div>
@@ -26,7 +22,7 @@ const Toggable = React.forwardRef(({ children, label }, ref) => {
       </div>
     </div>
   );
-});
+};
 
 Toggable.propTypes = {
   label: PropTypes.string.isRequired,
