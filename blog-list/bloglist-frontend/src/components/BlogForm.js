@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-const BlogForm = ({ addBlog }) => {
+import { createBlog } from '../reducer/blogReducer';
+
+const BlogForm = () => {
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
-  const submitNewBlog = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const response = await addBlog({ title, author, url });
-    if (response) {
-      setTitle('');
-      setAuthor('');
-      setUrl('');
+    try {
+      dispatch(createBlog({title, author, url}));
+    } catch(e) {
+      alert('Missing url or title')
     }
-  };
+  }
 
   return (
     <div>
       <h2>Create New</h2>
-      <form onSubmit={submitNewBlog}>
+      <form onSubmit={handleSubmit}>
         <div>
         title:
           <input
