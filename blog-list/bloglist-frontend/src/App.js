@@ -12,8 +12,6 @@ import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const localStorageKey = 'localBlogAppUser';
   const [message, setMessage] = useState(null);
@@ -34,25 +32,9 @@ const App = () => {
     setTimeout(() => setMessage(null), 5000);
   };
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    try {
-      const loginUser = await loginService.login({ username, password });
-      window.localStorage.setItem(localStorageKey, JSON.stringify(loginUser));
-      setUser(loginUser);
-      blogService.setToken(loginUser.token);
-      setNotification('Successfully signed in', 'success');
-    } catch (e) {
-      setNotification('Invalid username or password', 'warning');
-    }
-    setUsername('');
-    setPassword('');
-  };
-
   const handleLogout = () => {
     window.localStorage.removeItem(localStorageKey);
     window.location.reload();
-    setUser('');
     setNotification('Successfully signed out', 'warning');
   };
 
@@ -61,13 +43,7 @@ const App = () => {
       <Notification message={message} type={notifType} />
       {
         user === null
-          ? <Login
-            handleSubmit={handleLogin}
-            username={username}
-            handleUsernameChange={setUsername}
-            password={password}
-            handlePasswordChange={setPassword}
-          />
+          ? <Login />
           : <div>
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>
