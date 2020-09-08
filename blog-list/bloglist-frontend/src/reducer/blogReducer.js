@@ -10,12 +10,25 @@ export const initializeBlog = () => {
   };
 };
 
+export const likeBlog = (blog) => {
+  return async (dispatch) => {
+    const modifiedBlog = { ...blog, likes: blog.likes + 1};
+    const returnBlog = await blogService.putBlog(modifiedBlog);
+    dispatch({
+      type: 'LIKE_BLOG',
+      data: returnBlog
+    })
+  }
+}
+
 const blogReducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_BLOG':
       return action.data;
-      default:
-        return state;
+    case 'LIKE_BLOG':
+      return state.concat(action.data);
+    default:
+      return state;
   }
 };
 
