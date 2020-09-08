@@ -23,7 +23,7 @@ const BlogList = ({ removeBlog }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          addLike={() => {likeBlog(blog)}}
+          handleLike={() => {dispatch(likeBlog(blog))}}
           removeBlog={removeBlog}
         />
       )}
