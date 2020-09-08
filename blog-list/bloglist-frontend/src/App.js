@@ -78,20 +78,6 @@ const App = () => {
     }
   };
 
-  const addLike = async (blogObj) => {
-    const modifiedBlog = await blogService.putBlog(blogObj);
-    setBlogs(blogs.map(blog => blog.id === modifiedBlog.id ? modifiedBlog : blog));
-  };
-
-  const removeBlog = async (blogObj) => {
-    try {
-      await blogService.deleteBlog(blogObj);
-      setBlogs(blogs.filter(blog => blog.id !== blogObj.id));
-    } catch (e) {
-      setNotification('You don\'t have permission to delete that', 'warning');
-    }
-  };
-
   return (
     <>
       <Notification message={message} type={notifType} />
@@ -113,9 +99,6 @@ const App = () => {
               />
             </Toggable>
             <BlogList
-              blogs={blogs}
-              addLike={addLike}
-              removeBlog={removeBlog}
             />
           </div>
       }
