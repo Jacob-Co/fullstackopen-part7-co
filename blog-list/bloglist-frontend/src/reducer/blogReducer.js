@@ -26,7 +26,9 @@ const blogReducer = (state = [], action) => {
     case 'INIT_BLOG':
       return action.data;
     case 'LIKE_BLOG':
-      return state.concat(action.data);
+      const index = state.findIndex(blog => blog.id === action.data.id);
+      const newArray = state.slice(0, index).concat(state.slice(index + 1), action.data);
+      return newArray
     default:
       return state;
   }
