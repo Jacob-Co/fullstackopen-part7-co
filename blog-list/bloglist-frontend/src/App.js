@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Components
 import BlogList from './components/BlogList';
@@ -12,21 +12,12 @@ import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const localStorageKey = 'localBlogAppUser';
   const [message, setMessage] = useState(null);
   const [notifType, setNotifType] = useState(null);
-
-  const toggleBlogFormRef = useRef();
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    );
-  }, []);
 
   useEffect(() => {
     const localUser = window.localStorage.getItem(localStorageKey);
@@ -65,19 +56,6 @@ const App = () => {
     setNotification('Successfully signed out', 'warning');
   };
 
-  const addBlog = async (blogObj) => {
-    try {
-      const returnedBlog = await blogService.postBlog(blogObj);
-      toggleBlogFormRef.current.toggleVisibility();
-      setBlogs(blogs.concat(returnedBlog));
-      setNotification(`Added new blog ${returnedBlog.title}`, 'success');
-      return true;
-    } catch (e) {
-      setNotification('Missing title, author or url', 'warning');
-      return false;
-    }
-  };
-
   return (
     <>
       <Notification message={message} type={notifType} />
@@ -93,13 +71,11 @@ const App = () => {
           : <div>
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>
-            <Toggable label='create a new blog' ref={toggleBlogFormRef}>
-              <BlogForm
-                addBlog={addBlog}
-              />
+            {/* <Toggable label='create a new blog' ref={toggleBlogFormRef}> */}
+            <Toggable label='create a new blog'>
+              <BlogForm />
             </Toggable>
-            <BlogList
-            />
+            <BlogList />
           </div>
       }
     </>
