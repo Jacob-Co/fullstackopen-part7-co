@@ -21,14 +21,28 @@ export const likeBlog = (blog) => {
   }
 }
 
+export const removeBlog = (blog) => {
+  return async (dispatch) => {
+    await blogService.deleteBlog(blog);
+    dispatch({
+      type: 'REMOVE_BLOG',
+      data: blog
+    });
+  };
+};
+
 const blogReducer = (state = [], action) => {
+  let index;
+
   switch (action.type) {
     case 'INIT_BLOG':
       return action.data;
     case 'LIKE_BLOG':
-      const index = state.findIndex(blog => blog.id === action.data.id);
-      const newArray = state.slice(0, index).concat(state.slice(index + 1), action.data);
-      return newArray
+      index = state.findIndex(blog => blog.id === action.data.id);
+      return state.slice(0, index).concat(state.slice(index + 1), action.data);
+    case 'REMOVE_BLOG':
+      index = state.findIndex(blog => blog.id === action.data.id);
+      return state.slice(0, index).concat(state.slice(index + 1));
     default:
       return state;
   }
