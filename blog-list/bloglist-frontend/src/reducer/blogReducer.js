@@ -13,10 +13,10 @@ export const initializeBlog = () => {
 export const likeBlog = (blog) => {
   return async (dispatch) => {
     const modifiedBlog = { ...blog, likes: blog.likes + 1};
-    const returnBlog = await blogService.putBlog(modifiedBlog);
+    const returnedBlog = await blogService.putBlog(modifiedBlog);
     dispatch({
       type: 'LIKE_BLOG',
-      data: returnBlog
+      data: returnedBlog
     })
   }
 }
@@ -31,6 +31,22 @@ export const removeBlog = (blog) => {
   };
 };
 
+export const createBlog = (blogObj) => {
+  return async (dispatch) => {
+    try {
+      const returnedBlog = await blogService.postBlog(blogObj);
+      dispatch({
+        type: 'NEW_BLOG',
+        data: returnedBlog
+      })
+    } catch {
+      dispatch({
+        type: 'ERROR'
+      });
+    }
+  }
+}
+
 const blogReducer = (state = [], action) => {
   let index;
 
@@ -43,6 +59,8 @@ const blogReducer = (state = [], action) => {
     case 'REMOVE_BLOG':
       index = state.findIndex(blog => blog.id === action.data.id);
       return state.slice(0, index).concat(state.slice(index + 1));
+    case 'NEW_BLOG':
+      return [...state, action.data]
     default:
       return state;
   }
