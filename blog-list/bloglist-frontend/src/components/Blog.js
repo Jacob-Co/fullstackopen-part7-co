@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog, addLike, removeBlog }) => {
+const Blog = ({ blog, handleLike, removeBlog }) => {
   const [visible, setVisible] = useState(false);
 
   const blogStyle = {
@@ -16,11 +16,6 @@ const Blog = ({ blog, addLike, removeBlog }) => {
   };
 
   const showIfVisible = { display: visible ? '' : 'none' };
-
-  const handleLike = () => {
-    const modifiedBlog = { ...blog, likes: blog.likes + 1 };
-    addLike(modifiedBlog);
-  };
 
   const handleRemove = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) removeBlog(blog);
