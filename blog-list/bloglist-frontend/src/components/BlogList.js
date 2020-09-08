@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { initializeBlog, likeBlog } from '../reducer/blogReducer'
+import { initializeBlog, likeBlog, removeBlog } from '../reducer/blogReducer'
 import Blog from './Blog.js';
 
-const BlogList = ({ removeBlog }) => {
+const BlogList = () => {
   const sortByLikes = (blog1, blog2) => {
     return Number(blog2.likes) - Number(blog1.likes);
   };
@@ -23,8 +23,12 @@ const BlogList = ({ removeBlog }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          handleLike={() => {dispatch(likeBlog(blog))}}
-          removeBlog={removeBlog}
+          handleLike={() => dispatch(likeBlog(blog))}
+          removeBlog={() => {
+            if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+              dispatch(removeBlog(blog))
+            }}
+          }
         />
       )}
     </div>
