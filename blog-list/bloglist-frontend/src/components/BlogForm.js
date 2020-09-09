@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
+import Toggable from './Toggable';
 import { createBlog } from '../reducer/blogReducer';
 
 const BlogForm = () => {
   const dispatch = useDispatch();
+  const toggleBlogForm = useRef();
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -14,13 +16,17 @@ const BlogForm = () => {
     event.preventDefault();
     try {
       dispatch(createBlog({title, author, url}));
+      toggleBlogForm.current.toggleVisibility();
+      setTitle('');
+      setAuthor('');
+      setUrl('');
     } catch(e) {
       alert('Missing url or title')
     }
   }
 
   return (
-    <div>
+    <Toggable label="Create new blog" ref={toggleBlogForm}>
       <h2>Create New</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -55,7 +61,7 @@ const BlogForm = () => {
         </div>
         <button id="blogCreate-button">Create</button>
       </form>
-    </div>
+    </Toggable>
   );
 };
 
