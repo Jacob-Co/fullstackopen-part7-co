@@ -1,4 +1,5 @@
 import blogService from '../services/blogs';
+import { createNotification } from '../reducer/notificationReducer';
 
 export const initializeBlog = () => {
   return async (dispatch) => {
@@ -23,27 +24,27 @@ export const likeBlog = (blog) => {
 
 export const removeBlog = (blog) => {
   return async (dispatch) => {
-    await blogService.deleteBlog(blog);
-    dispatch({
-      type: 'REMOVE_BLOG',
-      data: blog
-    });
+    try{
+      await blogService.deleteBlog(blog);
+      dispatch({
+        type: 'REMOVE_BLOG',
+        data: blog
+      });
+      dispatch(createNotification(`Deleted blog: ${blog.title}`, 'warning'))
+    } catch (e) {
+      dispatch(createNotification('Can\'t delete a blog that is not yours'))
+    }
   };
 };
 
 export const createBlog = (blogObj) => {
   return async (dispatch) => {
-    try {
-      const returnedBlog = await blogService.postBlog(blogObj);
-      dispatch({
-        type: 'NEW_BLOG',
-        data: returnedBlog
-      })
-    } catch {
-      dispatch({
-        type: 'ERROR'
-      });
-    }
+    const returnedBlog = await blogService.postBlog(blogObj);
+    dispatch({
+      type: 'NEW_BLOG',
+      data: returnedBlog
+    })
+    dispatch(createNotification(`Created blog: ${returnedBlog.title}`, 'success'))
   }
 }
 
