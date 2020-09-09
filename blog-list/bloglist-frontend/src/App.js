@@ -7,6 +7,7 @@ import Login from './components/Login';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Toggable from './components/Toggable';
+import Logout from './components/Logout';
 
 // reducer
 import { setUser } from './reducer/userReducer';
@@ -29,18 +30,12 @@ const App = () => {
       dispatch(setUser(transformedUser));
       blogService.setToken(transformedUser.token);
     }
-  }, []);
+  }, [dispatch]);
 
   const setNotification = (message, type) => {
     setMessage(message);
     setNotifType(type);
     setTimeout(() => setMessage(null), 5000);
-  };
-
-  const handleLogout = () => {
-    window.localStorage.removeItem(localStorageKey);
-    window.location.reload();
-    setNotification('Successfully signed out', 'warning');
   };
 
   return (
@@ -51,7 +46,7 @@ const App = () => {
           ? <Login />
           : <div>
             {user.name} logged in
-            <button onClick={handleLogout}>logout</button>
+            <Logout />
             <Toggable label='create a new blog'>
               <BlogForm />
             </Toggable>
