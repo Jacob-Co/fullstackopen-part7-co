@@ -1,10 +1,12 @@
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const localStorageKey = 'localBlogAppUser'
 
 export const login = (credentials) => {
   return async (dispatch) => {
     const user = await loginService.login(credentials);
+    blogService.setToken(user.token);
     window.localStorage.setItem( localStorageKey, JSON.stringify(user));
     dispatch({
       type: 'LOGIN',
@@ -15,6 +17,7 @@ export const login = (credentials) => {
 
 export const setUser = (user) => {
   return async (dispatch) => {
+    blogService.setToken(user.token);
     dispatch({
       type: 'SET_USER',
       data: user
