@@ -1,17 +1,22 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import { createNotification } from '../reducer/notificationReducer';
 
 const localStorageKey = 'localBlogAppUser'
 
 export const login = (credentials) => {
   return async (dispatch) => {
-    const user = await loginService.login(credentials);
-    blogService.setToken(user.token);
-    window.localStorage.setItem( localStorageKey, JSON.stringify(user));
-    dispatch({
-      type: 'LOGIN',
-      data: user
-    });
+    try {
+      const user = await loginService.login(credentials);
+      blogService.setToken(user.token);
+      window.localStorage.setItem( localStorageKey, JSON.stringify(user));
+      dispatch({
+        type: 'LOGIN',
+        data: user
+      });
+    } catch {
+      dispatch(createNotification('Wrong credentials', 'warning'));
+    }
   };
 }
 
