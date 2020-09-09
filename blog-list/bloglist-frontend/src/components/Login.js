@@ -22,7 +22,6 @@ const Login = () => {
           <input
             type="text"
             name="username"
-            autoComplete="username"
           />
         </div>
         <div>
@@ -30,7 +29,6 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            autoComplete="password"
           />
         </div>
         <button>Login</button>
