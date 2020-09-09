@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import BlogList from './components/BlogList';
@@ -7,12 +8,16 @@ import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Toggable from './components/Toggable';
 
+// reducer
+import { setUser } from './reducer/userReducer';
+
 // Server Request Helpers
 import blogService from './services/blogs';
-import loginService from './services/login';
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  
   const localStorageKey = 'localBlogAppUser';
   const [message, setMessage] = useState(null);
   const [notifType, setNotifType] = useState(null);
@@ -21,7 +26,7 @@ const App = () => {
     const localUser = window.localStorage.getItem(localStorageKey);
     if (localUser) {
       const transformedUser = JSON.parse(localUser);
-      setUser(transformedUser);
+      dispatch(setUser(transformedUser));
       blogService.setToken(transformedUser.token);
     }
   }, []);
