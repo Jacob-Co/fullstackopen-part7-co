@@ -37,6 +37,7 @@ export const logout = () => {
     dispatch({
       type: 'LOGOUT'
     })
+    dispatch(createNotification('Logged out', 'warning'));
   }
 }
 
