@@ -12,23 +12,18 @@ import Logout from './components/Logout';
 // reducer
 import { setUser } from './reducer/userReducer';
 
-// Server Request Helpers
-import blogService from './services/blogs';
-
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   
-  const localStorageKey = 'localBlogAppUser';
   const [message, setMessage] = useState(null);
   const [notifType, setNotifType] = useState(null);
 
   useEffect(() => {
-    const localUser = window.localStorage.getItem(localStorageKey);
+    const localUser = window.localStorage.getItem('localBlogAppUser');
     if (localUser) {
       const transformedUser = JSON.parse(localUser);
       dispatch(setUser(transformedUser));
-      blogService.setToken(transformedUser.token);
     }
   }, [dispatch]);
 
