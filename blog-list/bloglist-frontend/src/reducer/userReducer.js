@@ -14,6 +14,7 @@ export const login = (credentials) => {
         type: 'LOGIN',
         data: user
       });
+      dispatch(createNotification(`Welcome ${user.name}`, 'success'))
     } catch {
       dispatch(createNotification('Wrong credentials', 'warning'));
     }
