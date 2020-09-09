@@ -6,7 +6,6 @@ import BlogList from './components/BlogList';
 import Login from './components/Login';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
-import Toggable from './components/Toggable';
 import Logout from './components/Logout';
 
 // reducer
@@ -42,9 +41,7 @@ const App = () => {
           : <div>
             {user.name} logged in
             <Logout />
-            <Toggable label='create a new blog'>
-              <BlogForm />
-            </Toggable>
+            <BlogForm />
             <BlogList />
           </div>
       }
