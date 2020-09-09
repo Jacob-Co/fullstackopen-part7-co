@@ -10,7 +10,6 @@ import Logout from './components/Logout';
 
 // reducer
 import { setUser } from './reducer/userReducer';
-import { createNotification } from './reducer/notificationReducer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ const App = () => {
     if (localUser) {
       const transformedUser = JSON.parse(localUser);
       dispatch(setUser(transformedUser));
-      dispatch(createNotification(`Welcome ${transformedUser.name}`, 'success'))
     }
   }, [dispatch]);
 

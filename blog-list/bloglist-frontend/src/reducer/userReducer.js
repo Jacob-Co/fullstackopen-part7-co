@@ -28,6 +28,7 @@ export const setUser = (user) => {
       type: 'SET_USER',
       data: user
     })
+    dispatch(createNotification(`Welcome ${user.name}`, 'success'))
   }
 }
 
