@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 
-import { initializeBlog, likeBlog, removeBlog } from '../reducer/blogReducer'
+import { initializeBlog } from '../reducer/blogReducer'
 import Blog from './Blog.js';
 
 const BlogList = () => {
@@ -9,8 +10,21 @@ const BlogList = () => {
     return Number(blog2.likes) - Number(blog1.likes);
   };
 
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+  };
+
   const dispatch = useDispatch();
   const blogsByLikes = useSelector(state => state.blogs.sort(sortByLikes));
+
+  const blogMatch = useRouteMatch('/blogs/:id');
+  const blog = blogMatch
+    ? blogsByLikes.find(blog => blog.id === blogMatch.params.id)
+    : null;
 
   useEffect(() => {
     dispatch(initializeBlog())
@@ -19,18 +33,19 @@ const BlogList = () => {
   return (
     <div id="blogList">
       <h2>blogs</h2>
-      {blogsByLikes.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={() => dispatch(likeBlog(blog))}
-          removeBlog={() => {
-            if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-              dispatch(removeBlog(blog))
-            }}
-          }
-        />
-      )}
+      <Switch>
+        <Route path="/blogs/:id">
+          <Blog blog={blog} />
+        </Route>
+
+        <Route path="/">
+          {blogsByLikes.map(blog =>
+            <Link to={`/blogs/${blog.id}`} key={blog.id}>
+              <div style={blogStyle}>{blog.title} {blog.author}</div>
+            </Link>
+          )}
+        </Route>
+      </Switch>
     </div>
   );
 };
