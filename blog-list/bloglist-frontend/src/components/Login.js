@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { login } from '../reducer/userReducer';
+import { login } from '../reducer/tokenReducer';
 
 const Login = () => {
   const dispatch = useDispatch();

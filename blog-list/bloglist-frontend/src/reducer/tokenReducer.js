@@ -1,6 +1,6 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
-import { createNotification } from '../reducer/notificationReducer';
+import { createNotification } from './notificationReducer';
 
 const localStorageKey = 'localBlogAppUser'
 
@@ -42,7 +42,7 @@ export const logout = () => {
   }
 }
 
-const userReducer = (state = null, action) => {
+const tokenReducer = (state = null, action) => {
   switch (action.type) {
     case 'LOGIN':
       return action.data;
@@ -55,4 +55,4 @@ const userReducer = (state = null, action) => {
   }
 }
 
-export default userReducer;
+export default tokenReducer;

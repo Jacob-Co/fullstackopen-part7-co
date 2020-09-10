@@ -7,13 +7,14 @@ import Login from './components/Login';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Logout from './components/Logout';
+import Users from './components/Users';
 
 // reducer
-import { setUser } from './reducer/userReducer';
+import { setUser } from './reducer/tokenReducer';
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.token);
 
   useEffect(() => {
     const localUser = window.localStorage.getItem('localBlogAppUser');
@@ -34,6 +35,7 @@ const App = () => {
             <Logout />
             <BlogForm />
             <BlogList />
+            <Users />
           </div>
       }
     </>
