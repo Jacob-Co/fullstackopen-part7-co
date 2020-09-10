@@ -1,43 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-const Blog = ({ blog, handleLike, removeBlog }) => {
-  const [visible, setVisible] = useState(false);
+import { likeBlog, removeBlog } from '../reducer/blogReducer'
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  };
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const toggelVisibility = () => {
-    setVisible(!visible);
-  };
-
-  const showIfVisible = { display: visible ? '' : 'none' };
+  if (!blog) return null;
 
   return (
-    <div style={blogStyle} className="blog">
-      <div className="blogBasics">
-        {blog.title} {blog.author}
-        <button className="blogDetails-button" onClick={toggelVisibility}>
-          {visible ? 'hide' : 'view'}
-        </button>
+    <div>
+      <h1>{blog.title} {blog.author}</h1>
+      <div>
+        <div><a rel="noopener noreferrer" href={`${blog.url}`} target="_blank">{blog.url}</a></div>
+        <div>{blog.likes} likes <button onClick={() => dispatch(likeBlog(blog))}>like</button></div>
+        <div>added by {blog.user.username}</div>
+        <div><button onClick={() => {
+          dispatch(removeBlog(blog))
+          const webToken = window.localStorage.getItem('localBlogAppUser');
+          const currentUser = JSON.parse(webToken).username;
+          if (blog.user.username === currentUser) history.push('/');
+          }}>Delete Blog</button></div>
       </div>
-      <div style={showIfVisible} className="blogDetails">
-        <div>
-          {blog.url}
-        </div>
-        <div>
-          likes: {blog.likes}
-          <button className="like-button" onClick={handleLike}>like</button>
-        </div>
-        <div>
-          {blog.user.name}
-        </div>
-        <button className="delete-button" onClick={removeBlog}>remove</button>
-      </div>
+      
     </div>
   );
 };
