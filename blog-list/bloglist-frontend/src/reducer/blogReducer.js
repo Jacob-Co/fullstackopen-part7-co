@@ -32,7 +32,7 @@ export const removeBlog = (blog) => {
       });
       dispatch(createNotification(`Deleted blog: ${blog.title}`, 'warning'))
     } catch (e) {
-      dispatch(createNotification('Can\'t delete a blog that is not yours'))
+      dispatch(createNotification('Can\'t delete a blog that is not yours', 'warning'))
     }
   };
 };
