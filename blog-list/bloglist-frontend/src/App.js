@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import {
+  Switch,
+  Route
+} from 'react-router-dom';
+
 // Components
 import BlogList from './components/BlogList';
 import Login from './components/Login';
@@ -33,9 +38,18 @@ const App = () => {
           : <div>
             {user.name} logged in
             <Logout />
-            <BlogForm />
-            <BlogList />
-            <Users />
+
+            <Switch>
+              <Route path="/user/:id">
+                <Users />
+              </Route>
+              
+              <Route path="/">
+                <BlogForm />
+                <BlogList />
+                <Users />
+              </Route>
+            </Switch>
           </div>
       }
     </>
