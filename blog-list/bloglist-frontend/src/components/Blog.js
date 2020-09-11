@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { likeBlog, removeBlog } from '../reducer/blogReducer'
+import CommentList from './CommentList';
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Blog = ({ blog }) => {
           }}>Delete Blog</button></div>
       </div>
       
+      <CommentList blog={blog} />
     </div>
   );
 };
