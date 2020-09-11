@@ -20,9 +20,13 @@ blogsRouter.post('/:id/comments', async (request, response) => {
 
   const returnedComment = await newComment.save();
   blog.comments = blog.comments.concat(returnedComment);
-  await blog.save();
+  const returnedBlog = await blog.save();
+  await returnedBlog
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 })
+    .execPopulate();
 
-  response.json(returnedComment);
+  response.json(returnedBlog);
 });
 
 blogsRouter.post('/', async (request, response) => {
