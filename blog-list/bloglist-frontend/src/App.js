@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
+  Link,
   Switch,
   Route
 } from 'react-router-dom';
@@ -20,6 +21,9 @@ import { setUser } from './reducer/tokenReducer';
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.token);
+  const linkPadding = {
+    padding: "5px"
+  }
 
   useEffect(() => {
     const localUser = window.localStorage.getItem('localBlogAppUser');
@@ -36,11 +40,18 @@ const App = () => {
         user === null
           ? <Login />
           : <div>
-            {user.name} logged in
-            <Logout />
+            <nav>
+              <Link style={linkPadding} to="/">blogs</Link>
+              <Link style={linkPadding} to="/users">users</Link>
+              {user.name} logged in <Logout />
+            </nav>
 
             <Switch>
               <Route path="/user/:id">
+                <Users />
+              </Route>
+
+              <Route path="/users">
                 <Users />
               </Route>
 
@@ -51,7 +62,6 @@ const App = () => {
               <Route path="/">
                 <BlogForm />
                 <BlogList />
-                <Users />
               </Route>
             </Switch>
           </div>
