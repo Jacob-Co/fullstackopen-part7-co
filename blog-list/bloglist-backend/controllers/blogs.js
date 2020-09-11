@@ -6,7 +6,8 @@ const Comment = require('../models/comments');
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
     .find({})
-    .populate('user', { username: 1, name: 1 });
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 });
   response.json(blogs);
 });
 
@@ -42,7 +43,10 @@ blogsRouter.post('/', async (request, response) => {
   const returnedBlog = await newBlog.save();
   user.blogs = user.blogs.concat(returnedBlog._id);
   await user.save();
-  await returnedBlog.populate('user', { username: 1, name: 1 }).execPopulate();
+  await returnedBlog
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 })
+    .execPopulate();
   response.status(201).json(returnedBlog);
 });
 
@@ -67,14 +71,14 @@ blogsRouter.put('/:id', async (request, response) => {
     title: body.title,
     url: body.url,
     likes: body.likes || 0,
-    comments: body.comments,
   };
   const returnedBlog = await Blog
     .findByIdAndUpdate(id, updatedBlog, {
       new: true,
       runValidators: true,
     })
-    .populate('user', { username: 1, name: 1 });
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 });
 
   if (!returnedBlog) return response.status(404).end();
 
