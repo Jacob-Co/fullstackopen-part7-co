@@ -1,6 +1,7 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blogs');
 const User = require('../models/users');
+const Comment = require('../models/comments');
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -9,15 +10,18 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs);
 });
 
-blogsRouter.post('/:id/comments', async (request, resposne) => {
+blogsRouter.post('/:id/comments', async (request, response) => {
   const { body } = request;
-  const modifiedBlog = await Blog
-    .findByIdAndUpdate(request.params.id, { $push: { comments: body.comment } }, {
-      new: true,
-      runValidators: true,
-    });
+  const blog = await Blog.findById(request.params.id);
+  const newComment = new Comment({
+    comment: body.comment,
+  });
 
-  resposne.json(modifiedBlog);
+  const returnedComment = await newComment.save();
+  blog.comments = blog.comments.concat(returnedComment);
+  await blog.save();
+
+  response.json(returnedComment);
 });
 
 blogsRouter.post('/', async (request, response) => {
