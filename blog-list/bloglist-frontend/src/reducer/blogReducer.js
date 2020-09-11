@@ -39,12 +39,16 @@ export const removeBlog = (blog) => {
 
 export const createBlog = (blogObj) => {
   return async (dispatch) => {
-    const returnedBlog = await blogService.postBlog(blogObj);
-    dispatch({
-      type: 'NEW_BLOG',
-      data: returnedBlog
-    })
-    dispatch(createNotification(`Created blog: ${returnedBlog.title}`, 'success'))
+    try {
+      const returnedBlog = await blogService.postBlog(blogObj);
+      dispatch({
+        type: 'NEW_BLOG',
+        data: returnedBlog
+      })
+      dispatch(createNotification(`Created blog: ${returnedBlog.title}`, 'success'))
+    } catch (e) {
+      dispatch(createNotification('Could not create blog, missing title or url', 'warning'))
+    }
   }
 }
 
