@@ -52,6 +52,16 @@ export const createBlog = (blogObj) => {
   }
 }
 
+export const addComment = (blog, comment) => {
+  return async (dispatch) => {
+    const returnedBlog = await blogService.commentOnBlog(blog, comment);
+    dispatch({
+      type:'NEW_COMMENT',
+      data: returnedBlog
+    })
+  }
+}
+
 const blogReducer = (state = [], action) => {
   let index;
 
@@ -66,6 +76,9 @@ const blogReducer = (state = [], action) => {
       return state.slice(0, index).concat(state.slice(index + 1));
     case 'NEW_BLOG':
       return [...state, action.data]
+    case 'NEW_COMMENT':
+      index = state.findIndex(blog => blog.id === action.data.id);
+      return state.slice(0, index).concat(state.slice(index + 1), action.data);
     default:
       return state;
   }
