@@ -4,6 +4,7 @@ import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 
 import { initializeBlog } from '../reducer/blogReducer'
 import Blog from './Blog.js';
+import BlogForm from './BlogForm';
 
 const BlogList = () => {
   const sortByLikes = (blog1, blog2) => {
@@ -32,13 +33,14 @@ const BlogList = () => {
 
   return (
     <div id="blogList">
-      <h2>blogs</h2>
+      <h2>Blog App</h2>
       <Switch>
         <Route path="/blogs/:id">
           <Blog blog={blog} />
         </Route>
 
         <Route path="/">
+          <BlogForm />
           {blogsByLikes.map(blog =>
             <Link to={`/blogs/${blog.id}`} key={blog.id}>
               <div style={blogStyle}>{blog.title} {blog.author}</div>

@@ -10,7 +10,6 @@ import {
 // Components
 import BlogList from './components/BlogList';
 import Login from './components/Login';
-import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Logout from './components/Logout';
 import Users from './components/Users';
@@ -60,7 +59,6 @@ const App = () => {
               </Route>
               
               <Route path="/">
-                <BlogForm />
                 <BlogList />
               </Route>
             </Switch>
