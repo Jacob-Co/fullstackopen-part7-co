@@ -14,15 +14,13 @@ const BlogForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    try {
       dispatch(createBlog({title, author, url}));
-      toggleBlogForm.current.toggleVisibility();
-      setTitle('');
-      setAuthor('');
-      setUrl('');
-    } catch(e) {
-      alert('Missing url or title')
-    }
+      if (title && url) { 
+        toggleBlogForm.current.toggleVisibility();
+        setTitle('');
+        setAuthor('');
+        setUrl('');
+      }
   }
 
   return (
