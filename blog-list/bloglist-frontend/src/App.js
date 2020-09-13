@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  Link,
   Switch,
   Route
 } from 'react-router-dom';
@@ -11,8 +10,9 @@ import {
 import BlogList from './components/BlogList';
 import Login from './components/Login';
 import Notification from './components/Notification';
-import Logout from './components/Logout';
+
 import Users from './components/Users';
+import NavigationBar from './components/NavigationBar';
 
 // reducer
 import { setUser } from './reducer/tokenReducer';
@@ -20,9 +20,6 @@ import { setUser } from './reducer/tokenReducer';
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.token);
-  const linkPadding = {
-    padding: "5px"
-  }
 
   useEffect(() => {
     const localUser = window.localStorage.getItem('localBlogAppUser');
@@ -39,11 +36,7 @@ const App = () => {
         user === null
           ? <Login />
           : <div>
-            <nav>
-              <Link style={linkPadding} to="/">blogs</Link>
-              <Link style={linkPadding} to="/users">users</Link>
-              {user.name} logged in <Logout />
-            </nav>
+            <NavigationBar user={user}/>
 
             <Switch>
               <Route path="/user/:id">
