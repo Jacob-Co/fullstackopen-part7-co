@@ -1,0 +1,18 @@
+div .notification {
+  background-color: lightgray;
+  font-size: 1.75rem;
+  padding: .25em .75em;
+  margin: .5em 0;
+  border: .15em solid;
+  border-radius: 10px;
+}
+
+div .warning {
+  color: red;
+  border-color: red;
+}
+
+div .success {
+  color: green;
+  border-color: green;
+}
